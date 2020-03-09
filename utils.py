@@ -153,34 +153,34 @@ def get_data():
 
     print(f'Cohort Size: {len(combined)}')
 
-    valve_dict = {'0':'Absent','1':'Mild','2':'Mild-Moderate','3':'Moderate','4':'Moderate-Severe','5':'Severe'}
+    valve_dict = {'0':'Absent','1':'Present','2':'Present','3':'Present','4':'Present','5':'Present'}
     var_dict = {'age':{'display':'Age, years'},
                 'gender':{'display':'Sex','replace':{'0':'Male','1':'Female'}},
                 'height':{'display':'Height, cm'},
                 'weight':{'display':'Weight, kg'},
-                #'bmi':{'display':'Body Mass Index'},
-                'race':{'display':'Ethnicity','replace':{'0':'Chinese','1':'Malay','2':'Indian','3':'Others'}},
-                'smoking':{'display':'Smoking','replace':{'0.0':'No','1.0':'Yes'}},
-                'alcohol':{'display':'Alcohol Use','replace':{'0':'No Alcohol Use','1':'Previous Alcohol Use','2':'Current Alcohol Use'}},
+                'bmi':{'display':'Body Mass Index'},
+                #'race':{'display':'Ethnicity','replace':{'0':'Chinese','1':'Malay','2':'Indian','3':'Others'}},
+                #'smoking':{'display':'Smoking','replace':{'0.0':'No','1.0':'Yes'}},
+                #'alcohol':{'display':'Alcohol Use','replace':{'0':'No Alcohol Use','1':'Previous Alcohol Use','2':'Current Alcohol Use'}},
                 ##Past Medical History
-                'af':{'display':'Atrial Fibrillation','replace':{'0':'No','1':'Yes'}},
+                #'af':{'display':'Atrial Fibrillation','replace':{'0':'No','1':'Yes'}},
                 #'prevaccstatus':{'display':'Existing Anticoagulation Use'},
-                'prevacctype':{'display':'Existing Anticoagulation Before Diagnosis Of LV Thrombus','replace':{'0':'No Existing Anticoagulation','1':'Warfarin','2':'Novel Oral Anticoagulant'}},
-                'htn':{'display':'Hypertension','replace':{'0':'No','1':'Yes'}},
-                'hld':{'display':'Hyperlipidemia','replace':{'0':'No','1':'Yes'}},
-                'dm':{'display':'Diabetes Mellitus','replace':{'0':'No Diabetes','1':'Impaired Fasting Glucose','2':'Impaired Glucose Tolerance','3':'Type 2 Diabetes Mellitus'}},
+                #'prevacctype':{'display':'Existing Anticoagulation Before Diagnosis Of LV Thrombus','replace':{'0':'No Existing Anticoagulation','1':'Warfarin','2':'Novel Oral Anticoagulant'}},
+                #'htn':{'display':'Hypertension','replace':{'0':'No','1':'Yes'}},
+                #'hld':{'display':'Hyperlipidemia','replace':{'0':'No','1':'Yes'}},
+                'dm':{'display':'Diabetes Mellitus/Prediabetes','replace':{'0':'No','1':'Yes','2':'Yes','3':'Yes'}},
                 'ckd':{'display':'Chronic Kidney Disease','replace':{'0':'No Kidney Disease','1':'Chronic Kidney Disease','2':'End Stage Renal Failure On Dialysis','3':'Status Post Renal Transplant'}},
-                'cld':{'display':'Chronic Liver Disease','replace':{'0':'No','1':'Yes'}},
-                'pvd':{'display':'Peripheral Vascular Disease','replace':{'0':'No Peripheral Vascular Disease','1':'Intermittent Claudication','2':'Critical Limb Ischemia'}},
+                #'cld':{'display':'Chronic Liver Disease','replace':{'0':'No','1':'Yes'}},
+                #'pvd':{'display':'Peripheral Vascular Disease','replace':{'0':'No Peripheral Vascular Disease','1':'Intermittent Claudication','2':'Critical Limb Ischemia'}},
                 'vte':{'display':'Venous Thromboembolism','replace':{'0':'No','1':'Yes'}},
-                'stroke':{'display':'Cerebrovascular Accident','replace':{'0':'No Cerebrovascular Accident/Transient Ischemia Attack','1':'Transient Ischemic Attack','2':'Cerebrovascular Accident'}},
-                'asthma':{'display':'Asthma','replace':{'0':'No','1':'Yes'}},
-                'copd':{'display':'Chronic Obstructive Pulmonary Disease','replace':{'0':'No','1':'Yes'}},
-                'malignancy':{'display':'Malignancy','replace':{'0':'No','1':'Yes'}},
-                'prevacs':{'display':'Prior Acute Coronary Syndrome','replace':{'0':'No Previous ACS','1':'Non-STE ACS','2':'STEMI','3':'Other Ischemic Heart Disease'}},
+                'stroke':{'display':'Cerebrovascular Accident/Transient Ischemic Attack','replace':{'0':'No','1':'Yes','2':'Yes'}},
+                #'asthma':{'display':'Asthma','replace':{'0':'No','1':'Yes'}},
+                #'copd':{'display':'Chronic Obstructive Pulmonary Disease','replace':{'0':'No','1':'Yes'}},
+                #'malignancy':{'display':'Malignancy','replace':{'0':'No','1':'Yes'}},
+                #'prevacs':{'display':'Prior Acute Coronary Syndrome','replace':{'0':'No Previous ACS','1':'Non-STE ACS','2':'STEMI','3':'Other Ischemic Heart Disease'}},
                 'heartfailure':{'display':'Heart Failure','replace':{'0':'No','1':'Yes'}},
                 ##Post MI Complications
-                # post AMI arrhythmias - too many missing values
+                #'postmiarrhythmia':{'display':'Post-AMI Arrhythmia','replace':{'0':'No','2':'Pulseless Ventricular Tachycardia/Ventricular Fibrillation','5':'Pulseless Electrical Activity','1':'Ventricular Tachycardia','3':'Complete Heart Block','4':'Bradycardia'}},
                 'newaf':{'display':'Post-AMI Atrial Fibrillation','replace':{'0':'No','1':'Yes'}},
                 'cardiogenic_shock':{'display':'Post-AMI Cardiogenic Shock','replace':{'0':'No','1':'Yes'}},
                 'cpr':{'display':'Cardiopulmonary Resuscitation','replace':{'0':'No','1':'Yes','0.0':'No','1.0':'Yes'}},
@@ -193,7 +193,7 @@ def get_data():
                 'plt':{'display':'Platelet Count, 10^9/dL'},
                 'pt':{'display':'Prothrombin Time, seconds'},
                 'inr':{'display':'International Normalized Ratio'},
-                'aptt':{'display':'Activated Partial Thromboplastin Time'},
+                'aptt':{'display':'Activated Partial Thromboplastin Time, seconds'},
                 'ast':{'display':'Aspartate Aminotransferase, U/L'},
                 'alt':{'display':'Alanine Aminotransferase, U/L'},
                 'alp':{'display':'Alkaline Phosphatase, U/L'},
@@ -238,19 +238,19 @@ def get_data():
                 #'pr':{'display':'Pulmonary Regurgitation','replace':valve_dict},
                 #'ps':{'display':'Pulmonary Stenosis','replace':valve_dict},
                 'wall_motion_abn_(absent_=_0,_regional_=_1,_global_=_2)':{'display':'Wall Motion Abnormality','replace':{'0.0':'None','1.0':'Regional','2.0':'Global','1':'Regional','2':'Global'}},
-                #'wall_affected_(apex_=_1,_anterior_=_2,_septal_=_3,_inferior_=_4,_lateral_=_5)':{'display':'Apical Wall Motion Abnormality','replace':{'1':'Yes','2':'No','3':'No','4':'No','5':'No'}},
+                'wall_affected_(apex_=_1,_anterior_=_2,_septal_=_3,_inferior_=_4,_lateral_=_5)':{'display':'Apical Wall Motion Abnormality','replace':{'1':'Yes','2':'No','3':'No','4':'No','5':'No'}},
                 'lvaneurysm':{'display':'Left Ventricular Aneurysm','replace':{'0':'No','1':'Yes'}},
                 'mobility':{'display':'LV Thrombus Mobility','replace':{'0':'No','1':'Yes'}},
-                'protrusion':{'display':'Protrusion','replace':{'0':'No','1':'Yes'}}, #clarify
+                'protrusion':{'display':'Protrusion','replace':{'0':'No','1':'Yes'}},
                 'lvtdiameter':{'display':'LV Thrombus Maximal Diameter, cm'},
                 #MI Treatment
                 'aspirin':{'display':'Aspirin Use','replace':{'0.0':'No','1.0':'Yes'}},
                 '2ndantiplatelet':{'display':'Second Antiplatelet Agent','replace':{'0.0':'None','1.0':'Clopidogrel','2.0':'Ticagrelor','3.0':'Prasugrel','4.0':'Ticlopidine'}},
-                #'coronaryangiogram':{'display':'Coronary Angiogram Performed','replace':{'0':'No','1':'Yes'}},
+                'coronaryangiogram':{'display':'Coronary Angiogram Performed','replace':{'0':'No','1':'Yes'}},
                 'cad':{'display':'Coronary Artery Disease','replace':{'0.0':'No Vessel Disease','1.0':'Single Vessel Disease','2.0':'Double Vessel Disease','3.0':'Triple Vessel Disease'}},    
-                #'n_of_culprit_a':{'display':'Number of Culprit Arteries','replace':{0.0:'None',1.0:'One',2.0:'Two',3.0:'Three'}},
-                'revascularisation':{'display':'Revascularization Procedure','replace':{'0':'No Revascularization','1':'Percutaneous Coronary Intervention','2':'Coronary Artery Bypass Graft','3':'Thrombolysis'}},
-                'stenttype':{'display':'Type Of Stent Used','replace':{'4.0':'None','0.0':'POBA','1.0':'Drug-eluting Stent','2.0':'Bare Metal Stent','3.0':'Bioabsorbable Vascular Stent'}},
+                'n_of_culprit_a':{'display':'Number of Culprit Arteries','replace':{0.0:'None',1.0:'One',2.0:'Two',3.0:'Three'}},
+                'revascularisation':{'display':'Revascularization Procedure','replace':{'0':'No','1':'Yes','2':'Yes','3':'Yes'}},
+                #'stenttype':{'display':'Type Of Stent Used','replace':{'4.0':'None','0.0':'POBA','1.0':'Drug-eluting Stent','2.0':'Bare Metal Stent','3.0':'Bioabsorbable Vascular Stent'}},
                 #'chadsvasc':{'display':'CHADS-Vasc Score'},
                 #'hasbled':{'display':'HASBLED score'},
                 ##Tx for LV thrombus
@@ -342,7 +342,7 @@ def apply_exclusions(combined,var_list,cat_features_list,cat_order,exclude_death
     
     print(f'No anticoagulation: {sum(combined["Anticoagulation After LV Thrombus Diagnosis"] == "No Anticoagulation")}')
     combined = combined[combined['Anticoagulation After LV Thrombus Diagnosis'] != 'No Anticoagulation']
-    combined['Peak Troponin I, ng/dL'] = combined['Peak Troponin I, ng/dL'].replace({999.:np.nan})
+    #combined['Peak Troponin I, ng/dL'] = combined['Peak Troponin I, ng/dL'].replace({999.:np.nan})
     combined['lvtrecurrence'][~combined['lvtrecurrence'].isin(['0.0','1.0','2.0'])] = np.nan
     combined['lvtstatus'] = combined['lvtrecurrence'].replace({'0.0':'Resolved LVT','1.0':outcome_string,'2.0':outcome_string})
     #combined['lvtstatus'] = combined['lvtstatus'].replace({'0.0':'Resolved LVT','1.0':'Unresolved LVT','2.0':'Unresolved LVT','3.0':'Resolved LVT'})

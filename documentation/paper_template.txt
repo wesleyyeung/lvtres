@@ -1,0 +1,43 @@
+Journal: EHJ,Circulation,JACC 
+
+Introduction
+1. Severity of problem?
+- mortality
+- stroke
+2. What is not known?
+- no treatment guideline
+- current rx paradigm is ....
+- machine learning models, -> can they be used to identify who will have thrombus resolution
+3. What we want to do?
+- machine learning model to predict thrombus resolution
+
+Methods
+- how data was obtained -> aloysius paper
+- ethics -> aloysius paper
+- statistics 
+
+Results
+
+Describe population
+1. Table 1 - demographics - top 10 variables
+2. Table 2 - model selection
+3. AUROC plots
+What are the top few predictors
+Supplementary data for remaining variables
+
+
+Discussion
+1. Summary of paper: we found that using xx model... we can accurate predict ....
+2. Explain findings - based on top 3 variables
+3. Compare and contrast with other studies which have tried to predict thrombus resolution. Which variables stood out, underlying pathophysiology
+4. What to do: can be implemented into EMR, CDSS, Point of care, customise anticoagulation duration; could suggest a more personalised approach.
+5. Other use of machine learning models for other cardiac events -> has proven to be useful
+6. Strengths and limitations:
+- to the best of our knowledge, this is the first... study
+- robust methodology...
+- however, limited by small sample size - but LVT is rare
+- black box
+- requires external validation in other population
+
+Conclusion: 
+- In summary, this xx model has shown to predict LVT resolution with ... accuracy with a AUC . This suggests that the use of machine learning might be a useful adjunct in helping to predict LVT resolution and can provide clinicians with a useful aid. Further clinical studies are needed.

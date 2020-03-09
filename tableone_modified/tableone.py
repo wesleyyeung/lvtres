@@ -14,7 +14,7 @@ from scipy import stats
 from statsmodels.stats import multitest
 from tabulate import tabulate
 
-import modality
+import tableone_modified.modality as modality
 
 # display deprecation warnings
 warnings.simplefilter('always', DeprecationWarning)
