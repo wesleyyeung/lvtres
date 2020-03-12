@@ -2,10 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import re
-import xgboost as xgb
-from sklearn.calibration import CalibratedClassifierCV, calibration_curve
-from sklearn.metrics import roc_curve, auc, roc_auc_score, confusion_matrix, brier_score_loss, precision_score, recall_score,f1_score, precision_recall_curve, plot_precision_recall_curve, average_precision_score, classification_report
-from sklearn.model_selection import train_test_split
 
 def ordered_dict_values(dictionary):
     """
@@ -141,11 +137,11 @@ def get_data():
         A dictionary of lists indicating the order of appearance for each variable - used for Table 1
     """
     
-    schema = pd.read_csv('raw_data\\schema.csv')
-    nstemi = pd.read_csv('raw_data\\nstemi.csv')
+    schema = pd.read_csv('raw_data/schema.csv')
+    nstemi = pd.read_csv('raw_data/nstemi.csv')
     nstemi = clean_df(nstemi,schema)
     nstemi['acs_type'] = 'NSTEMI'
-    stemi = pd.read_csv('raw_data\\stemi.csv')
+    stemi = pd.read_csv('raw_data/stemi.csv')
     stemi = clean_df(stemi,schema)
     stemi['acs_type'] = 'STEMI'
     combined = pd.concat([nstemi,stemi],axis=0)
@@ -194,9 +190,9 @@ def get_data():
                 'pt':{'display':'Prothrombin Time, seconds'},
                 'inr':{'display':'International Normalized Ratio'},
                 'aptt':{'display':'Activated Partial Thromboplastin Time, seconds'},
-                'ast':{'display':'Aspartate Aminotransferase, U/L'},
-                'alt':{'display':'Alanine Aminotransferase, U/L'},
-                'alp':{'display':'Alkaline Phosphatase, U/L'},
+                #'ast':{'display':'Aspartate Aminotransferase, U/L'},
+                #'alt':{'display':'Alanine Aminotransferase, U/L'},
+                #'alp':{'display':'Alkaline Phosphatase, U/L'},
                 #'egfr':{'display':'Estimated Glomerular Filtration Rate'},
                 'creatinine':{'display':'Creatinine, mmol/L'},
                 #MI Characteristics
@@ -242,7 +238,7 @@ def get_data():
                 'lvaneurysm':{'display':'Left Ventricular Aneurysm','replace':{'0':'No','1':'Yes'}},
                 'mobility':{'display':'LV Thrombus Mobility','replace':{'0':'No','1':'Yes'}},
                 'protrusion':{'display':'Protrusion','replace':{'0':'No','1':'Yes'}},
-                'lvtdiameter':{'display':'LV Thrombus Maximal Diameter, cm'},
+                #'lvtdiameter':{'display':'LV Thrombus Maximal Diameter, cm'},
                 #MI Treatment
                 'aspirin':{'display':'Aspirin Use','replace':{'0.0':'No','1.0':'Yes'}},
                 '2ndantiplatelet':{'display':'Second Antiplatelet Agent','replace':{'0.0':'None','1.0':'Clopidogrel','2.0':'Ticagrelor','3.0':'Prasugrel','4.0':'Ticlopidine'}},
