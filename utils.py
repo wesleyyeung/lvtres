@@ -241,7 +241,7 @@ def get_data():
                 #'lvtdiameter':{'display':'LV Thrombus Maximal Diameter, cm'},
                 #MI Treatment
                 'aspirin':{'display':'Aspirin Use','replace':{'0.0':'No','1.0':'Yes'}},
-                '2ndantiplatelet':{'display':'Second Antiplatelet Agent','replace':{'0.0':'None','1.0':'Clopidogrel','2.0':'Ticagrelor','3.0':'Prasugrel','4.0':'Ticlopidine'}},
+                '2ndantiplatelet':{'display':'Second Antiplatelet Agent','replace':{'0.0':'No','1.0':'Yes','2.0':'Yes','3.0':'Yes','4.0':'Yes'}},
                 #'coronaryangiogram':{'display':'Coronary Angiogram Performed','replace':{'0':'No','1':'Yes'}},
                 'cad':{'display':'Coronary Artery Disease','replace':{'0.0':'No Vessel Disease','1.0':'Single Vessel Disease','2.0':'Double Vessel Disease','3.0':'Triple Vessel Disease'}},    
                 'n_of_culprit_a':{'display':'Number of Culprit Arteries','replace':{0.0:'None',1.0:'One',2.0:'Two',3.0:'Three'}},
