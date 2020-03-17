@@ -165,7 +165,7 @@ def get_data():
                 #'htn':{'display':'Hypertension','replace':{'0':'No','1':'Yes'}},
                 #'hld':{'display':'Hyperlipidemia','replace':{'0':'No','1':'Yes'}},
                 'dm':{'display':'Diabetes Mellitus/Prediabetes','replace':{'0':'No','1':'Yes','2':'Yes','3':'Yes'}},
-                'ckd':{'display':'Chronic Kidney Disease','replace':{'0':'No Kidney Disease','1':'Chronic Kidney Disease','2':'End Stage Renal Failure On Dialysis','3':'Status Post Renal Transplant'}},
+                'ckd':{'display':'Chronic Kidney Disease','replace':{'0':'No','1':'Yes','2':'Yes','3':'Yes'}},
                 #'cld':{'display':'Chronic Liver Disease','replace':{'0':'No','1':'Yes'}},
                 #'pvd':{'display':'Peripheral Vascular Disease','replace':{'0':'No Peripheral Vascular Disease','1':'Intermittent Claudication','2':'Critical Limb Ischemia'}},
                 'vte':{'display':'Venous Thromboembolism','replace':{'0':'No','1':'Yes'}},
