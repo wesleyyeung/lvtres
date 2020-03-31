@@ -342,6 +342,8 @@ def apply_exclusions(combined,var_list,cat_features_list,cat_order,exclude_death
     combined['lvtrecurrence'][~combined['lvtrecurrence'].isin(['0.0','1.0','2.0'])] = np.nan
     combined['lvtstatus'] = combined['lvtrecurrence'].replace({'0.0':'Resolved LVT','1.0':outcome_string,'2.0':outcome_string})
     #combined['lvtstatus'] = combined['lvtstatus'].replace({'0.0':'Resolved LVT','1.0':'Unresolved LVT','2.0':'Unresolved LVT','3.0':'Resolved LVT'})
+    print(f'Unknown outcome: {sum(combined["lvtstatus"].isna())}')
+    combined = combined[combined['lvtstatus'].isna()==False]
     combined = combined.drop('lvtrecurrence',axis=1)
     combined = combined.drop(['repeat_scan_date','finalscandate','dateofdeath','Anticoagulation After LV Thrombus Diagnosis'],axis=1)
     try:
@@ -350,8 +352,6 @@ def apply_exclusions(combined,var_list,cat_features_list,cat_order,exclude_death
         pass
     var_list = [n for n in var_list if n not in ['lvtrecurrence','dateofdeath','repeat_scan_date','finalscandate','diedbeforerepeatscan','Anticoagulation After LV Thrombus Diagnosis']]
     cat_features_list = [cat for cat in cat_features_list if cat != 'Anticoagulation After LV Thrombus Diagnosis']
-    print(f'Unknown outcome: {sum(combined["lvtstatus"].isna())}')
-    combined = combined[combined['lvtstatus'].isna()==False]
     combined = combined.reset_index(drop=True)
     print(f'Final cohort size:{len(combined)}')
     print()
