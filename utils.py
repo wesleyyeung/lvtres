@@ -1,3 +1,7 @@
+"""
+This script contains code used clean the raw data and is used in '1. descriptive.ipynb'
+"""
+#Import libraries
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -115,6 +119,38 @@ def clean_df(df,schema,debug=False):
     
     return df
 
+def tidy(df,var_dict):
+    """
+    Subfunction to extract variable names, categorical variables and get order of display of categorical levels for Table 1
+
+    Parameters
+    ----------
+    df: pandas.DataFrame
+        The dataset to be tidied
+    var_dict:
+        A nested dictionary containing original variable names as keys and a dictionary of display name and dictionary to replace categorical values
+    """
+    var_list = ['lvtstatus','lvtrecurrence','dateofdeath','repeat_scan_date','finalscandate']
+    cat_features = []
+    cat_order = {}
+    for varname in var_dict:
+        display_name = var_dict[varname].get('display')
+        replace_dict = var_dict[varname].get('replace',None)
+        if replace_dict is not None:
+            try:
+                df[varname] = df[varname].apply(str)
+                df[varname] = df[varname].replace(replace_dict)
+                df[varname] = df[varname].replace({'nan':np.nan})
+            except:
+                print(varname)
+                raise 
+            cat_features.append(display_name)
+            cat_order[display_name] = ordered_dict_values(replace_dict)
+        df = df.rename({varname:display_name},axis=1)
+        var_list.append(display_name)
+    df = df[var_list]
+    return df,var_list,cat_features, cat_order
+    
 def get_data():
     """
     A wrapper function to read csv datasets, perform cleaning and replaced categorical levels using the var_dict
@@ -200,38 +236,6 @@ def get_data():
                 'followupduration':{'display':'Followup Duration, days'},
                 'statusofdeath':{'display':'statusofdeath'}}
 
-    def tidy(df,var_dict):
-        """
-        Subfunction to extract variable names, categorical variables and get order of display of categorical levels for Table 1
-        
-        Parameters
-        ----------
-        df: pandas.DataFrame
-            The dataset to be tidied
-        var_dict:
-            A nested dictionary containing original variable names as keys and a dictionary of display name and dictionary to replace categorical values
-        """
-        var_list = ['lvtstatus','lvtrecurrence','dateofdeath','repeat_scan_date','finalscandate']
-        cat_features = []
-        cat_order = {}
-        for varname in var_dict:
-            display_name = var_dict[varname].get('display')
-            replace_dict = var_dict[varname].get('replace',None)
-            if replace_dict is not None:
-                try:
-                    df[varname] = df[varname].apply(str)
-                    df[varname] = df[varname].replace(replace_dict)
-                    df[varname] = df[varname].replace({'nan':np.nan})
-                except:
-                    print(varname)
-                    raise 
-                cat_features.append(display_name)
-                cat_order[display_name] = ordered_dict_values(replace_dict)
-            df = df.rename({varname:display_name},axis=1)
-            var_list.append(display_name)
-        df = df[var_list]
-        return df,var_list,cat_features, cat_order
-    
     combined,var_list,cat_features_list,cat_order = tidy(combined,var_dict)
     
     return combined, var_list,cat_features_list,cat_order
