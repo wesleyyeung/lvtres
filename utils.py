@@ -240,7 +240,7 @@ def get_data():
     
     return combined, var_list,cat_features_list,cat_order
 
-def apply_exclusions(combined,var_list,cat_features_list,cat_order):
+def apply_exclusions(combined,var_list,cat_features_list,cat_order,exclude_death=False):
     """
     A function used to apply exclusion criteria to the dataset
     
@@ -255,7 +255,7 @@ def apply_exclusions(combined,var_list,cat_features_list,cat_order):
     cat_order: list
         Dictionary with variable names as keys and values of lists indicating order of appearance for categorical features
     exclude_death: bool
-        A flag to indicate if patietns who died should be excluded
+        A flag to indicate if patients who died should be excluded
     
     Returns
     -------
@@ -270,25 +270,36 @@ def apply_exclusions(combined,var_list,cat_features_list,cat_order):
         after applying exclusion criteria
     """
     
+    
+    if exclude_death == True:
+        print('Processing dataset excluding patients who died:')
+        outcome_string = 'Unresolved LVT'
+        combined['ddeath'] = pd.to_datetime(combined['dateofdeath'],errors='coerce')
+        combined['repeat_scan_date'] = pd.to_datetime(combined['repeat_scan_date'],errors='coerce')
+        combined['finalscandate'] = pd.to_datetime(combined['finalscandate'],errors='coerce')
+        combined['diedbeforerepeatscan'] = combined.apply(lambda row: pd.isnull(row['ddeath'])==False and (pd.isnull(row['repeat_scan_date']) and pd.isnull(row['finalscandate'])),axis=1)
+        print(f'Died before any repeat scan: {sum(combined["diedbeforerepeatscan"])}')
+        combined = combined[combined['diedbeforerepeatscan']==False]
+    else:
+        print('Processing dataset including patients who died...')
+        outcome_string = 'Unresolved LVT/Death'
+    
     print(f'No anticoagulation: {sum(combined["Anticoagulation After LV Thrombus Diagnosis"] == "No Anticoagulation")}')
     combined = combined[combined['Anticoagulation After LV Thrombus Diagnosis'] != 'No Anticoagulation']
+    combined['Peak Troponin I, ng/dL'] = combined['Peak Troponin I, ng/dL'].replace({999.:np.nan})
     combined['lvtrecurrence'][~combined['lvtrecurrence'].isin(['0.0','1.0','2.0'])] = np.nan
-    print()
-    print('Breakdown of outcomes:')
-    print(combined['lvtrecurrence'].replace({'0.0':'Resolved','1.0':'Recurrent','2.0':np.nan}).value_counts())
-    print(combined['statusofdeath'][combined['lvtrecurrence']=='2.0'].replace({'1':'Died','1.0':'Died','0':'Persistent','0.0':'Persistent'}).value_counts())
-    print()
-    combined['lvtstatus'] = combined['lvtrecurrence'].replace({'0.0':'Resolved LVT','1.0':'Unresolved LVT/Death','2.0':'Unresolved LVT/Death'})
-    print(f'Unknown outcome: {sum(combined["lvtstatus"].isna())}')
-    combined = combined[combined['lvtstatus'].isna()==False]
+    combined['lvtstatus'] = combined['lvtrecurrence'].replace({'0.0':'Resolved LVT','1.0':outcome_string,'2.0':outcome_string})
+    #combined['lvtstatus'] = combined['lvtstatus'].replace({'0.0':'Resolved LVT','1.0':'Unresolved LVT','2.0':'Unresolved LVT','3.0':'Resolved LVT'})
     combined = combined.drop('lvtrecurrence',axis=1)
     combined = combined.drop(['repeat_scan_date','finalscandate','dateofdeath','Anticoagulation After LV Thrombus Diagnosis'],axis=1)
     try:
         combined = combined.drop(['ddeath','diedbeforerepeatscan'],axis=1)
     except:
         pass
-    var_list = [n for n in var_list if n not in ['lvtrecurrence','statusofdeath','dateofdeath','repeat_scan_date','finalscandate','diedbeforerepeatscan','Anticoagulation After LV Thrombus Diagnosis']]
+    var_list = [n for n in var_list if n not in ['lvtrecurrence','dateofdeath','repeat_scan_date','finalscandate','diedbeforerepeatscan','Anticoagulation After LV Thrombus Diagnosis']]
     cat_features_list = [cat for cat in cat_features_list if cat != 'Anticoagulation After LV Thrombus Diagnosis']
+    print(f'Unknown outcome: {sum(combined["lvtstatus"].isna())}')
+    combined = combined[combined['lvtstatus'].isna()==False]
     combined = combined.reset_index(drop=True)
     print(f'Final cohort size:{len(combined)}')
     print()
